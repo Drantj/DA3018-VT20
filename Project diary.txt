@@ -1,0 +1,24 @@
+2020-05-18
+Worked on a) main Graph method to turn data into graphs and b) removing the overlapping edges to get
+easier data to digest. 
+
+a) For Graphs representation I started by creating an adjacency list utilizing HashMap<Integer, LinkedList<Integer>>.
+This way I can save the first element as vertices by encounter and store all adjacent vertices in its LinkedList.
+In the main argument I store the encountered vertices to keep track off placement and rename them to integers
+before adding them to the graph. Hopefully this is memory semi-efficient.
+b) My program takes input from System.in so in ubuntu I wrote a script that will remove all overlapping 
+edges before initiating the java program.
+This method seems to work for smaller data sets.
+
+2020-05-19
+Worked on methods to find Degree and component distribution. For degree I made a method that looks at all
+vertices and reports the degree distribution of all possible degrees in the dataset. For component distribution
+I wrote a DFS method that takes a vertex and prints its component. Next iterate over all vertices to find all
+connected components to finally get the component distribution and number of connected components.
+
+These methods work on smaller data sets.
+With all the main methods I have tried running it in ubuntu on the given data set. Having some doubts on how I
+iterate over the Graph to get the desired report. The program is taking a long time but will leave it on
+to test it's efficiency (if it works at all).
+
+2020-02-20
