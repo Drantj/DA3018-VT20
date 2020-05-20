@@ -22,3 +22,18 @@ iterate over the Graph to get the desired report. The program is taking a long t
 to test it's efficiency (if it works at all).
 
 2020-02-20
+Worked on issues with memory usage in my project. Main problems were a) I stored my vertex strings in a list,
+and b) my DFS method was written recursively.
+
+a) Since when working with lists I needed to use indexOf and contains it became very inneficcient on larger data
+sets. Therefore I changed the storage of vertices to a HasMap<String, Integer> method that stores the string,
+with it's location in the Graph. That way I can more efficiently find the String that I need at a given time.
+b) Since my DFS was written recursively I ran into a StackOverFlow issue when running the larger dataset. To
+solve this I first tried to extend the Stack sizes, but without success. Instead I rewrote the DFS to 
+work iteratively which solved the problem of StackOverflow. 
+My program now works on the large data set and I believe I am getting the correct solution.
+
+Next I need to present my findings and I believe that saving the data from the java program and importing 
+the values to plot using python might be a good solution.
+
+
