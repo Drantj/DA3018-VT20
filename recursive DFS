@@ -1,0 +1,34 @@
+private LinkedList<Integer> DFS(int v, boolean[] visited, LinkedList<Integer> component) {
+		visited[v] = true;
+		component.add(v);
+		LinkedList<Integer> adj = map.get(v);
+		for (int x : adj) {
+			if(!visited[x]) {
+				DFS(x, visited, component);
+			}
+		}
+		return component;
+	}
+	
+	void connectedComponents() {
+		boolean[] visited = new boolean[map.size()];
+		int c = 0;
+		
+		for (int v = 0; v < map.size(); v++) {
+			if(!visited[v]) {
+				LinkedList<Integer> component = new LinkedList<Integer>(); 
+				component = DFS(v, visited, component);
+				int cSize = component.size();
+				if (!cComponent.containsKey(cSize)) {
+					cComponent.put(cSize, 1);
+				}
+				else {
+					int old = cComponent.get(cSize);
+					cComponent.replace(cSize, old + 1);
+				}
+				
+			}
+		}
+		
+		
+	}
