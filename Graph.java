@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Stack;
 
 class Graph {
 	HashMap<Integer, LinkedList<Integer>> map = new HashMap<>();
@@ -84,13 +85,25 @@ class Graph {
 		return map.size();
 	}
 	
-	private LinkedList<Integer> DFS(int v, boolean[] visited, LinkedList<Integer> component) {
-		visited[v] = true;
-		component.add(v);
-		LinkedList<Integer> adj = map.get(v);
-		for (int x : adj) {
-			if(!visited[x]) {
-				DFS(x, visited, component);
+	public LinkedList<Integer> DFS(int v, boolean[] visited){
+		LinkedList<Integer> component = new LinkedList<Integer>(); 
+		Stack<Integer> stack = new Stack<>();
+		
+		stack.push(v);
+		
+		while(!stack.empty()) {
+			
+			v = stack.peek();
+			stack.pop();
+			
+			if(!visited[v]) {
+				component.add(v);
+				visited[v] = true;
+			}
+			for (int x : map.get(v)) {
+				if(!visited[x]) {
+					stack.push(x);
+				}
 			}
 		}
 		return component;
@@ -98,26 +111,25 @@ class Graph {
 	
 	void connectedComponents() {
 		boolean[] visited = new boolean[map.size()];
-		int c = 0;
 		
-		for (int v = 0; v < map.size(); v++) {
+		for ( int v = 0; v < map.size(); v++) {
 			if(!visited[v]) {
-				LinkedList<Integer> component = new LinkedList<Integer>(); 
-				component = DFS(v, visited, component);
+				LinkedList<Integer> component = DFS(v, visited);
 				int cSize = component.size();
 				if (!cComponent.containsKey(cSize)) {
 					cComponent.put(cSize, 1);
 				}
 				else {
 					int old = cComponent.get(cSize);
-					cComponent.replace(cSize, old + 1);
+					cComponent.replace(cSize,  old + 1);
 				}
-				
 			}
 		}
-		
-		
 	}
+	void display_components() {
+		System.out.println(cComponent);
+	}
+		
 	
 	public int ccNumber() {
 		int tot = 0;
@@ -145,42 +157,46 @@ class Graph {
 		
 		Scanner sc = new Scanner(System.in);
 		int i = 0;
-		ArrayList<String> vertex = new ArrayList<String>();
+		HashMap<String, Integer> vertex = new HashMap<>();
+		//ArrayList<String> vertex = new ArrayList<String>();
 		
 		try {			// build the graph bases on scanned entries from System.in
 			while (sc.hasNextLine()) {
 				String u = sc.next();
 				String v = sc.next();
 			
-				if (!vertex.contains(u)) {
-					vertex.add(u);
+				if (!vertex.containsKey(u)) {
+					vertex.put(u, i);
+					i++;
 				}
-				if (!vertex.contains(v)) {
-					vertex.add(v);
+				if (!vertex.containsKey(v)) {
+					vertex.put(v, i);
+					i++;
 				}
 				
-				int uNum = vertex.indexOf(u);
-				int vNum = vertex.indexOf(v);
+				int uNum = vertex.get(u);
+				int vNum = vertex.get(v);
 			
 				g.addEdge(uNum,  vNum);
 			
 			}
 		}
 		catch(Exception e) {}
-		//g.connectedComponents();
+		g.connectedComponents();
+		//g.displayGraph();
 		
 		System.out.println("------------------------------------");
 		System.out.println(g.size());
-		//System.out.println("The node degree distribution of G is represented by:");
+		System.out.println("The node degree distribution of G is represented by:");
 		
-		//g.degreeDistribution();
+		g.degreeDistribution();
 		
-		//System.out.println("------------------------------------");
-		//System.out.println("The component size distribution of G is represented by:");
-		//g.CompDist();
+		System.out.println("------------------------------------");
+		System.out.println("The component size distribution of G is represented by:");
+		g.CompDist();
 		
-		//System.out.println("------------------------------------");
-		//System.out.println("The total number of components in G is " + g.ccNumber());
+		System.out.println("------------------------------------");
+		System.out.println("The total number of components in G is " + g.ccNumber());
 		
 		long stopTime = System.currentTimeMillis();
 		System.out.println(stopTime - startTime);
