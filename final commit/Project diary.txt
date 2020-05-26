@@ -1,0 +1,46 @@
+2020-05-18
+Worked on a) main Graph method to turn data into graphs and b) removing the overlapping edges to get
+easier data to digest. 
+
+a) For Graphs representation I started by creating an adjacency list utilizing HashMap<Integer, LinkedList<Integer>>.
+This way I can save the first element as vertices by encounter and store all adjacent vertices in its LinkedList.
+In the main argument I store the encountered vertices to keep track off placement and rename them to integers
+before adding them to the graph. Hopefully this is memory semi-efficient.
+b) My program takes input from System.in so in ubuntu I wrote a script that will remove all overlapping 
+edges before initiating the java program.
+This method seems to work for smaller data sets.
+
+2020-05-19
+Worked on methods to find Degree and component distribution. For degree I made a method that looks at all
+vertices and reports the degree distribution of all possible degrees in the dataset. For component distribution
+I wrote a DFS method that takes a vertex and prints its component. Next iterate over all vertices to find all
+connected components to finally get the component distribution and number of connected components.
+
+These methods work on smaller data sets.
+With all the main methods I have tried running it in ubuntu on the given data set. Having some doubts on how I
+iterate over the Graph to get the desired report. The program is taking a long time but will leave it on
+to test it's efficiency (if it works at all).
+
+2020-05-20
+Worked on issues with memory usage in my project. Main problems were a) I stored my vertex strings in a list,
+and b) my DFS method was written recursively.
+
+a) Since when working with lists I needed to use indexOf and contains it became very inneficcient on larger data
+sets. Therefore I changed the storage of vertices to a HasMap<String, Integer> method that stores the string,
+with it's location in the Graph. That way I can more efficiently find the String that I need at a given time.
+b) Since my DFS was written recursively I ran into a StackOverFlow issue when running the larger dataset. To
+solve this I first tried to extend the Stack sizes, but without success. Instead I rewrote the DFS to 
+work iteratively which solved the problem of StackOverflow. 
+My program now works on the large data set and I believe I am getting the correct solution.
+
+Next I need to present my findings and I believe that saving the data from the java program and importing 
+the values to plot using python might be a good solution.
+
+2020-05-21
+To get good outputs to use in python I used a subscript in unix that first of all put the data that I needed
+in a textfile and also sorted it to make sure that for the degreedistribution I had the format 
+"degree" "ammount" sorted numerically by degree. The same was done for components as "size of component" "ammount".
+Next I created a program in python that read the data from these textfiles and produced two graphs that
+illustrate my findings.
+
+
