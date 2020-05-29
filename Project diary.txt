@@ -21,7 +21,7 @@ With all the main methods I have tried running it in ubuntu on the given data se
 iterate over the Graph to get the desired report. The program is taking a long time but will leave it on
 to test it's efficiency (if it works at all).
 
-2020-02-20
+2020-05-20
 Worked on issues with memory usage in my project. Main problems were a) I stored my vertex strings in a list,
 and b) my DFS method was written recursively.
 
@@ -35,5 +35,12 @@ My program now works on the large data set and I believe I am getting the correc
 
 Next I need to present my findings and I believe that saving the data from the java program and importing 
 the values to plot using python might be a good solution.
+
+2020-05-21
+To get good outputs to use in python I used a subscript in unix that first of all put the data that I needed
+in a textfile and also sorted it to make sure that for the degreedistribution I had the format 
+"degree" "ammount" sorted numerically by degree. The same was done for components as "size of component" "ammount".
+Next I created a program in python that read the data from these textfiles and produced two graphs that
+illustrate my findings.
 
 

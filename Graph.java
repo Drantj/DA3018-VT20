@@ -1,6 +1,5 @@
 package project;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -12,7 +11,8 @@ class Graph {
 	
 	// initiate hashmaps for storage
 	HashMap<Integer, LinkedList<Integer>> map = new HashMap<>();
-	HashMap<Integer, LinkedList<Integer>> degreeDist = new HashMap<>();	
+	
+	HashMap<Integer, Integer> degreeDist = new HashMap<>();	
 	HashMap<Integer, Integer> cComponent = new HashMap<>();
 	
 	
@@ -73,30 +73,26 @@ class Graph {
 		}
 	}
 	
-	
+	/*
+	 * method to find the degree distribution of the graph structure. 
+	 * Prints the degree and the number of vertices with that degree.
+	 */
 	void degreeDistribution() {
 		for (int n = 0; n < map.size(); n++) {
 			int degree = nodeDegree(n);
 			if(!degreeDist.containsKey(degree)) {
-				LinkedList<Integer> l = new LinkedList<>();
-				l.add(n);
-				degreeDist.put(degree, l);
+				degreeDist.put(degree, 1);
 			}
 			else {
-				LinkedList<Integer> l = degreeDist.get(degree);
-				l.add(n);
-				degreeDist.put(degree, l);
+				int old = degreeDist.get(degree);
+				degreeDist.replace(degree, old + 1);
 			}
 		}
-		System.out.format("%s%15s", "Degree", "Distribution");
-		for (Map.Entry<Integer, LinkedList<Integer>> iterate : degreeDist.entrySet()) {
+		for (Map.Entry<Integer, Integer> iterate : degreeDist.entrySet()) {
 			int key = iterate.getKey();
-			LinkedList<Integer> value = iterate.getValue();
-			double dd = (double)value.size() / map.size();		// cast into a double
-			System.out.format("\n%d%16f", key, dd);
+			int value = iterate.getValue();
+			System.out.format("%d% d\n", key, value);
 		}
-		System.out.println();
-		
 	}
 	
 	/*
@@ -172,14 +168,11 @@ class Graph {
 	
 	void CompDist() {
 		int size = ccNumber();
-		System.out.format("%s%17s", "Size", "Distribution");
 		for (Map.Entry<Integer, Integer> iterate : cComponent.entrySet()) {
 			int key = iterate.getKey();
 			int value = iterate.getValue();
-			double dd = (double)value / size;
-			System.out.format("\n%d%16f", key, dd);
+			System.out.format("%d% d\n", key, value);
 		}
-		System.out.println();
 	}
 	
 	/*
@@ -187,8 +180,6 @@ class Graph {
 	 * properties of the graph. Meant to be run in an unix tool.
 	 */
 	public static void main(String[] args) throws NoSuchElementException {
-		
-		long startTime = System.currentTimeMillis();
 		Graph g = new Graph();
 		
 		Scanner sc = new Scanner(System.in);
@@ -218,24 +209,45 @@ class Graph {
 				g.addEdge(uNum,  vNum);
 			
 			}
+			sc.close();
 		}
 		catch(Exception e) {}
-		g.connectedComponents();
 		
-		System.out.println("------------------------------------");
-		System.out.println("The node degree distribution of G is represented by:");
+		// decides what to print depending on what is entered
+		if (!(args.length == 0)) {
+			if (args[0].contentEquals("n")) {
+				g.degreeDistribution();			
+			}
+			else if (args[0].contentEquals("c")) {
+				g.connectedComponents();
+				g.CompDist();
 		
-		g.degreeDistribution();
+			}
+			else if (args[0].contentEquals("nr")) {
+				g.connectedComponents();
+				System.out.println(g.ccNumber());
+			}
+			else {
+				System.out.println("Not valid input");
+			}
+		}
+		// if no argument present the data in full
+		else {
+			g.connectedComponents();
+			System.out.println("------------------------------------");
+			System.out.println("The node degree distribution of G is represented by:");
 		
-		System.out.println("------------------------------------");
-		System.out.println("The component size distribution of G is represented by:");
-		g.CompDist();
+			g.degreeDistribution();
+			
+			System.out.println("------------------------------------");
+			System.out.println("The component size distribution of G is represented by:");
+			g.CompDist();
 		
-		System.out.println("------------------------------------");
-		System.out.println("The total number of components in G is " + g.ccNumber());
+			System.out.println("------------------------------------");
+			System.out.println("The total number of components in G is " + g.ccNumber());
 		
-		long stopTime = System.currentTimeMillis();
-		System.out.println(stopTime - startTime);
+		}
 	}
+
 	
 }
